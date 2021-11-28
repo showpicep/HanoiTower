@@ -27,6 +27,5 @@ namespace HanoiTowers
             this.control.Add(rod);
         }
 
-
     }
 }

@@ -27,17 +27,45 @@ namespace HanoiTowers
             Random random = new Random(0);
 
             disk = new Panel();
+            
             disk.Location = new Point(130+(i*10), 329 - (i*sizeOfDisk));
-            disk.BringToFront();
             disk.BorderStyle = BorderStyle.FixedSingle;
             disk.Size = new Size(initialWidth - (i*20), sizeOfDisk);
             disk.BackColor = Color.FromArgb(200-i*15,255-i*20,255-i*25);
             this.control.Add(disk);
         }
 
-        //public void MoveDisk(object sender, MouseEventArgs e)
+        Point current;
+        private void DiskMouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                current = new Point(e.X, e.Y);
+            }
+        }
+
+        public void DiskMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                //MessageBox.Show("d");
+                Point newlocation = disk.Location;
+                newlocation.X += e.X - current.X;
+                newlocation.Y += e.Y - current.Y;
+                disk.Location = newlocation;
+            }
+        }
+
+        //private void DiskMouseUp(object sender, MouseEventArgs e)
         //{
-        //    disk.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
+        //    MessageBox.Show("f");
         //}
+
+        public void MoveDisk()
+        {
+            disk.MouseClick += new MouseEventHandler(DiskMouseDown);
+            disk.MouseMove += new MouseEventHandler(DiskMouseMove);
+            //disk.MouseUp += new MouseEventHandler(DiskMouseUp);
+        }
     }
 }

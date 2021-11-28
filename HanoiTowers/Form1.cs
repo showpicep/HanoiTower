@@ -12,7 +12,8 @@ namespace HanoiTowers
 {
     public partial class Form1 : Form
     {
-        private object currObj = null;
+
+        public Button tmp = new Button();
 
         static ControlCollection control;
         /// <summary>
@@ -29,7 +30,6 @@ namespace HanoiTowers
             InitializeComponent();
             control = (ControlCollection)this.Controls;
             CreateMap();
-            this.MouseMove += new MouseEventHandler(MoveDisk);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -52,6 +52,7 @@ namespace HanoiTowers
             background.AddTextBox();
             background.AddButton();
             background.apply.Click += new EventHandler(AddDisks);
+
         }
 
         public void AddDisks(object sender, EventArgs e)
@@ -66,23 +67,12 @@ namespace HanoiTowers
             for (int i = 0; i < size; i++)
             {
                 disks[i].AddDisk(i);
+                disks[i].MoveDisk();
             }
 
             background.apply.Enabled = false;
             background.apply.BackColor = Color.White;
             background.sumOfDisk.Enabled = false;
-        }
-
-        public void MoveDisk(object sender, MouseEventArgs e)
-        {
-            if (currObj != null)
-                currObj.GetType().GetProperty("Location").SetValue(currObj, new Point(Cursor.Position.X, Cursor.Position.Y));
-                //disk.disk.Location = new Point(Cursor.Position.X, Cursor.Position.Y);
-        }
-
-        public void PanelMouseClick(object sender,EventArgs e)
-        {
-            currObj = sender;
         }
     }
 }
