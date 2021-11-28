@@ -1,0 +1,10 @@
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\bin\Debug\HanoiTowers.exe.config
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\bin\Debug\HanoiTowers.exe
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\bin\Debug\HanoiTowers.pdb
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\obj\Debug\HanoiTowers.csproj.AssemblyReference.cache
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\obj\Debug\HanoiTowers.Form1.resources
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\obj\Debug\HanoiTowers.Properties.Resources.resources
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\obj\Debug\HanoiTowers.csproj.GenerateResource.cache
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\obj\Debug\HanoiTowers.csproj.CoreCompileInputs.cache
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\obj\Debug\HanoiTowers.exe
+C:\Users\Acer\source\repos\HanoiTowers\HanoiTowers\obj\Debug\HanoiTowers.pdb
