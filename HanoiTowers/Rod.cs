@@ -12,6 +12,10 @@ namespace HanoiTowers
     class Rod
     {
         public ControlCollection control;
+        public Panel rod;
+        
+        public List<Panel>  disksOnRod = new List<Panel>();
+
         public Rod(ref ControlCollection control)
         {
             this.control = control;
@@ -19,7 +23,7 @@ namespace HanoiTowers
 
         public void Add(int order)
         {
-            Panel rod = new Panel();
+            rod = new Panel();
             int delta = 180+30;
             rod.Size = new Size(10, 200);
             rod.Location = new Point(delta * (order + 1), 150);

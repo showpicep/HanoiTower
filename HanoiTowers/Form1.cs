@@ -19,7 +19,7 @@ namespace HanoiTowers
         /// <summary>
         /// Массив стержней для возможности их индексации и обращения к конкретному объекту
         /// </summary>
-        Rod[] rod = new Rod[3];
+        Rod[] rods = new Rod[3];
 
         List<Disk> disks = new List<Disk>();
         Disk disk;
@@ -43,8 +43,8 @@ namespace HanoiTowers
 
             for (int i = 0; i < 3; i++)
             {
-                rod[i] = new Rod(ref control);
-                rod[i].Add(i);
+                rods[i] = new Rod(ref control);
+                rods[i].Add(i);
             }
 
             background = new Background(ref control);
@@ -61,7 +61,7 @@ namespace HanoiTowers
             int size = Convert.ToInt32(background.sumOfDisk.SelectedItem);
             for (int i = 0; i < size; i++)
             {
-                disks.Add(disk = new Disk(ref control));
+                disks.Add(disk = new Disk(ref control,ref rods));
             }
 
             for (int i = 0; i < size; i++)

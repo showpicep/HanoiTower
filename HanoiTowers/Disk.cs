@@ -16,10 +16,13 @@ namespace HanoiTowers
         public Panel disk;
 
         ControlCollection control;
+        Rod[] rodsFromDisk = new Rod[3];
 
-        public Disk(ref ControlCollection control)
+
+        public Disk(ref ControlCollection control,ref Rod[] rods)
         {
             this.control = control;
+            this.rodsFromDisk = rods;
         }
 
         public void AddDisk(int i)
@@ -55,17 +58,39 @@ namespace HanoiTowers
                 disk.Location = newlocation;
             }
         }
+        //Бесконечно ставиться вверх 
+        //Нужно удалять из листа из которого убрал диск
+        //Добавить проверку на постановку диска на штырь с которого блы взять диск
+        //На начальном штыре нет кол-ва дисков
+        private void DiskMouseUp(object sender, MouseEventArgs e)
+        {
+            int delta = 50;
+            Panel disk = sender as Panel;
+            for (int i = 0; i < 3; i++)
+            {
+                if (disk.Location.X <= rodsFromDisk[i].rod.Location.X + delta && disk.Location.X >= rodsFromDisk[i].rod.Location.X - delta)
+                {
+                    if (rodsFromDisk[i].disksOnRod.Count == 0)
+                    {
+                        disk.Location = new Point(rodsFromDisk[i].rod.Location.X - disk.Width / 2 + 3, rodsFromDisk[i].rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height);
+                        rodsFromDisk[i].disksOnRod.Add(disk);
+                    }
 
-        //private void DiskMouseUp(object sender, MouseEventArgs e)
-        //{
-        //    MessageBox.Show("f");
-        //}
+                    else
+                    {
+                        disk.Location = new Point(rodsFromDisk[i].rod.Location.X - disk.Width / 2 + 3, rodsFromDisk[i].rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height* (rodsFromDisk[i].disksOnRod.Count+1));
+                        rodsFromDisk[i].disksOnRod.Add(disk);
+                    }
+                    MessageBox.Show(disk.Location.ToString()+"\n" + rodsFromDisk[i].disksOnRod.Count + '\n' + rodsFromDisk[i].rod.Location);
+                }
+            }
+        }
 
         public void MoveDisk()
         {
             disk.MouseClick += new MouseEventHandler(DiskMouseDown);
             disk.MouseMove += new MouseEventHandler(DiskMouseMove);
-            //disk.MouseUp += new MouseEventHandler(DiskMouseUp);
+            disk.MouseUp += new MouseEventHandler(DiskMouseUp);
         }
     }
 }
