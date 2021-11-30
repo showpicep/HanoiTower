@@ -14,7 +14,7 @@ namespace HanoiTowers
         public ControlCollection control;
         public Panel rod;
         
-        public List<Panel>  disksOnRod = new List<Panel>();
+        public Stack<Panel>  disksOnRod = new Stack<Panel>();
 
         public Rod(ref ControlCollection control)
         {

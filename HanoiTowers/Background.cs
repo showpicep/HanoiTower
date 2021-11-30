@@ -39,8 +39,8 @@ namespace HanoiTowers
             text.Size = new Size(200, 15);
             text.Font = new Font("Arial", 10);
 
-            int[] tmp = new int[8] { 1, 2, 3, 4, 5, 6, 7, 8 };
-            for (int i = 0; i < 8; i++)
+            int[] tmp = new int[6] { 3, 4, 5, 6, 7, 8 };
+            for (int i = 0; i < 6; i++)
             {
                 sumOfDisk.Items.Add(tmp[i]);
             }
