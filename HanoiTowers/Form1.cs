@@ -67,7 +67,7 @@ namespace HanoiTowers
             for (int i = 0; i < size; i++)
             {
                 disks[i].AddDisk(i);
-                disks[i].MoveDisk();
+                disks[i].MoveDisk(disks[i].isAnime);
             }
 
             background.apply.Enabled = false;
