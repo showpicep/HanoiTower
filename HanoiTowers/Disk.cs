@@ -83,7 +83,7 @@ namespace HanoiTowers
 
         private void DiskMouseUp(object sender, MouseEventArgs e)
         {
-            int delta = 50;
+            int delta = 70;
             Panel disk = sender as Panel;
             if (Background.solve.Enabled != false)
             {

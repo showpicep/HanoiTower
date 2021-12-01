@@ -16,7 +16,6 @@ namespace HanoiTowers
             while (Disk.Location.Y > newY)
             {
                 Disk.Location = new System.Drawing.Point(Disk.Location.X, Disk.Location.Y - 10);
-                //view.Refresh();
                 Thread.Sleep(10);
             }
         }
@@ -26,7 +25,6 @@ namespace HanoiTowers
             while (Disk.Location.Y < newY)
             {
                 Disk.Location = new System.Drawing.Point(Disk.Location.X, Disk.Location.Y + 10);
-                //view.Refresh();
                 Thread.Sleep(10);
             }
         }
@@ -36,7 +34,6 @@ namespace HanoiTowers
             while (Disk.Location.X < newX)
             {
                 Disk.Location = new System.Drawing.Point(Disk.Location.X + 10, Disk.Location.Y);
-                //view.Refresh();
                 Thread.Sleep(10);
             }
 
@@ -47,7 +44,6 @@ namespace HanoiTowers
             while (Disk.Location.X > newX)
             {
                 Disk.Location = new System.Drawing.Point(Disk.Location.X - 10, Disk.Location.Y);
-                //view.Refresh();
                 Thread.Sleep(10);
             }
         }
