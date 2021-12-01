@@ -17,15 +17,14 @@ namespace HanoiTowers
         public bool isAnime = true;
 
         public Rod prev;
-
         ControlCollection control;
-        Rod[] rodsFromDisk = new Rod[3];
+        static Rod[] rodsFromDisk = new Rod[3];
 
 
         public Disk(ref ControlCollection control,ref Rod[] rods)
         {
             this.control = control;
-            this.rodsFromDisk = rods;
+            Disk.rodsFromDisk = rods;
             this.prev = rods[0];
         }
 
@@ -34,7 +33,7 @@ namespace HanoiTowers
             Random random = new Random(0);
             disk = new Panel();
             
-            disk.Location = new Point(130+(i*10), 329 - (i*sizeOfDisk));
+            disk.Location = new Point(130+(i*10), 350 - ((i+1)*sizeOfDisk));
             disk.BorderStyle = BorderStyle.FixedSingle;
             disk.Size = new Size(initialWidth - (i*20), sizeOfDisk);
             disk.BackColor = Color.FromArgb(200-i*15,255-i*20,255-i*25);
@@ -46,85 +45,79 @@ namespace HanoiTowers
         Point current;
         private void DiskMouseDown(object sender, MouseEventArgs e)
         {
-            if (prev.disksOnRod.Peek().Size == disk.Size)
+            if (Background.solve.Enabled != false)
             {
-
-                if (e.Button == MouseButtons.Left)
+                if (prev.disksOnRod.Peek().Size == disk.Size)
                 {
-                    current = new Point(e.X, e.Y);
+
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        current = new Point(e.X, e.Y);
+                    }
                 }
-            }
-            else
-            {
-                isAnime = isAnime && false;
-                //MessageBox.Show("Нельзя");
+                else
+                {
+                    isAnime = isAnime && false;
+                }
             }
         }
 
         public void DiskMouseMove(object sender, MouseEventArgs e)
         {
-
-            if (prev.disksOnRod.Peek().Size == disk.Size)
+            if (Background.solve.Enabled != false)
             {
-                if (e.Button == MouseButtons.Left)
+                if (prev.disksOnRod.Peek().Size == disk.Size)
                 {
-                    //MessageBox.Show("d");
-                    Point newlocation = disk.Location;
-                    newlocation.X += e.X - current.X;
-                    newlocation.Y += e.Y - current.Y;
-                    disk.Location = newlocation;
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        Point newlocation = disk.Location;
+                        newlocation.X += e.X - current.X;
+                        newlocation.Y += e.Y - current.Y;
+                        disk.Location = newlocation;
+                    }
                 }
+                else
+                    isAnime = isAnime && false;
             }
-            else
-                isAnime = isAnime && false;
         }
 
-        //Бесконечно ставиться вверх done
-        //Нужно удалять из листа из которого убрал диск done
-        //На начальном штыре нет кол-ва дисков done 
-        //Можно брать только самый маленький done
-        //Добавить проверку на постановку диска на штырь с которого был взят диск done
-        //Маленький можно ставить на пустой штырь или на больший диск done
         private void DiskMouseUp(object sender, MouseEventArgs e)
         {
             int delta = 50;
             Panel disk = sender as Panel;
-            
-            for (int i = 0; i < 3; i++)
+            if (Background.solve.Enabled != false)
             {
-                if (prev.disksOnRod.Peek().Size == disk.Size) 
+                for (int i = 0; i < 3; i++)
                 {
-                    if (disk.Location.X <= rodsFromDisk[i].rod.Location.X + delta && disk.Location.X >= rodsFromDisk[i].rod.Location.X - delta)
+                    if (prev.disksOnRod.Peek().Size == disk.Size)
                     {
-                        if (rodsFromDisk[i].disksOnRod.Count == 0 || rodsFromDisk[i].disksOnRod.Peek().Width > disk.Width)
+                        if (disk.Location.X <= rodsFromDisk[i].rod.Location.X + delta && disk.Location.X >= rodsFromDisk[i].rod.Location.X - delta)
                         {
-                            if (rodsFromDisk[i].disksOnRod.Count == 0)
+                            if (rodsFromDisk[i].disksOnRod.Count == 0 || rodsFromDisk[i].disksOnRod.Peek().Width > disk.Width)
                             {
-                                prev.disksOnRod.Peek().Location = new Point(rodsFromDisk[i].rod.Location.X - disk.Width / 2 + 3, rodsFromDisk[i].rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height);
-                                prev.disksOnRod.Pop();
-                                rodsFromDisk[i].disksOnRod.Push(disk);
-                                this.prev = rodsFromDisk[i];
-                            }
+                                if (rodsFromDisk[i].disksOnRod.Count == 0)
+                                {
+                                    prev.disksOnRod.Peek().Location = new Point(rodsFromDisk[i].rod.Location.X - disk.Width / 2 + 3, rodsFromDisk[i].rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height);
+                                    prev.disksOnRod.Pop();
+                                    rodsFromDisk[i].disksOnRod.Push(disk);
+                                    this.prev = rodsFromDisk[i];
+                                }
 
+                                else
+                                {
+                                    prev.disksOnRod.Peek().Location = new Point(rodsFromDisk[i].rod.Location.X - disk.Width / 2 + 3, rodsFromDisk[i].rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height * (rodsFromDisk[i].disksOnRod.Count + 1));
+                                    prev.disksOnRod.Pop();
+                                    rodsFromDisk[i].disksOnRod.Push(disk);
+                                    this.prev = rodsFromDisk[i];
+                                }
+                                //MessageBox.Show(disk.Location.ToString() + "\n" + rodsFromDisk[i].disksOnRod.Count + '\n' + rodsFromDisk[i].rod.Location);
+                            }
                             else
                             {
-                                prev.disksOnRod.Peek().Location = new Point(rodsFromDisk[i].rod.Location.X - disk.Width / 2 + 3, rodsFromDisk[i].rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height * (rodsFromDisk[i].disksOnRod.Count + 1));
-                                prev.disksOnRod.Pop();
-                                rodsFromDisk[i].disksOnRod.Push(disk);
-                                this.prev = rodsFromDisk[i];
+                                prev.disksOnRod.Peek().Location = new Point(prev.rod.Location.X - disk.Width / 2 + 3, prev.rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height * (prev.disksOnRod.Count));
                             }
-                            MessageBox.Show(disk.Location.ToString() + "\n" + rodsFromDisk[i].disksOnRod.Count + '\n' + rodsFromDisk[i].rod.Location);
                         }
-                        else
-                        {
-                            prev.disksOnRod.Peek().Location = new Point(prev.rod.Location.X - disk.Width / 2 + 3, prev.rod.Location.Y + rodsFromDisk[i].rod.Height - disk.Height*(prev.disksOnRod.Count));
-                           // MessageBox.Show("Нельзя");
-                        }
-                    } 
-                }
-                else
-                {
-                    //MessageBox.Show("Нельзя");
+                    }
                 }
             }
         }
@@ -139,6 +132,50 @@ namespace HanoiTowers
             }
             else
                 MessageBox.Show("Нельзя");
+        }
+
+        public static void Solver(int num_disc, int start, int end, int temp)
+        {
+            if (Background.apply.Enabled == false)
+            {
+                if (gameOver(Background.GetSumOfDisk()))
+                {
+                    if (num_disc > 1)
+                        Solver(num_disc - 1, start, temp, end);
+
+
+                    Animation.moveUp(rodsFromDisk[start].disksOnRod.Peek(), 50);
+
+                    if (rodsFromDisk[start].disksOnRod.Peek().Location.X < rodsFromDisk[end].rod.Location.X)
+                        Animation.moveRight(rodsFromDisk[start].disksOnRod.Peek(), rodsFromDisk[end].rod.Location.X - (rodsFromDisk[start].disksOnRod.Peek().Width / 2) + 3); //+3
+                    else
+                        Animation.moveLeft(rodsFromDisk[start].disksOnRod.Peek(), rodsFromDisk[end].rod.Location.X - (rodsFromDisk[start].disksOnRod.Peek().Width / 2) + 6); // +3
+
+                    Animation.moveDown(rodsFromDisk[start].disksOnRod.Peek(), 350 - (rodsFromDisk[end].disksOnRod.Count + 1) * 21);
+
+
+                    rodsFromDisk[end].disksOnRod.Push(rodsFromDisk[start].disksOnRod.Pop());
+
+                    if (num_disc > 1)
+                        Solver(num_disc - 1, temp, end, start);
+
+                }
+                else
+                    MessageBox.Show("Игра закончена");
+            }
+            else
+                MessageBox.Show("Задайте кол-во дисков!");
+        }
+
+        public static bool gameOver(int num_disc)
+        {
+            bool game = true;
+            if (rodsFromDisk[1].disksOnRod.Count == num_disc || rodsFromDisk[2].disksOnRod.Count == num_disc || Background.solve.Enabled == false)
+            {
+                MessageBox.Show("Игра закончена");
+                game = false;
+            }
+            return game;
         }
     }
 }

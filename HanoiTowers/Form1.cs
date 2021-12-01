@@ -51,14 +51,14 @@ namespace HanoiTowers
             background.AddTable();
             background.AddTextBox();
             background.AddButton();
-            background.apply.Click += new EventHandler(AddDisks);
+            Background.apply.Click += new EventHandler(AddDisks);
 
         }
 
         public void AddDisks(object sender, EventArgs e)
         {
             
-            int size = Convert.ToInt32(background.sumOfDisk.SelectedItem);
+            int size = Convert.ToInt32(Background.sumOfDisk.SelectedItem);
             for (int i = 0; i < size; i++)
             {
                 disks.Add(disk = new Disk(ref control,ref rods));
@@ -69,10 +69,17 @@ namespace HanoiTowers
                 disks[i].AddDisk(i);
                 disks[i].MoveDisk(disks[i].isAnime);
             }
+            if (size > 0)
+            {
+                Background.apply.Enabled = false;
+                Background.apply.BackColor = Color.White;
+                Background.sumOfDisk.Enabled = false;
+            }
+            else
+                MessageBox.Show("Выберите кол-во дисков");
 
-            background.apply.Enabled = false;
-            background.apply.BackColor = Color.White;
-            background.sumOfDisk.Enabled = false;
         }
+
+         
     }
 }

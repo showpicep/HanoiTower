@@ -12,8 +12,9 @@ namespace HanoiTowers
     class Background
     {
         public ControlCollection control;
-        public ComboBox sumOfDisk;
-        public Button apply;
+        public static ComboBox sumOfDisk;
+        public static Button apply;
+        public static Button solve;
 
         public Background(ref ControlCollection control)
         {
@@ -61,15 +62,30 @@ namespace HanoiTowers
             apply.Location = new Point(260, 8);
             apply.Size = new Size(70, 23);
             apply.Text = "Применить";
+
+            solve = new Button();
+            solve.Location = new Point(380,450);
+            solve.Size = new Size(120, 50);
+            solve.Text = "Решить";
+
+            this.control.Add(solve);
             this.control.Add(apply);
+
+            solve.Click += new EventHandler(Solve);
         }
 
-        public int GetSumOfDisk()
+        public static int GetSumOfDisk()
         {
-            MessageBox.Show(sumOfDisk.Text);
+            //MessageBox.Show(sumOfDisk.Text);
             return Convert.ToInt32(sumOfDisk.SelectedItem);
         }
 
-
+        public void Solve(object sender, EventArgs e)
+        {
+            Disk.Solver(GetSumOfDisk(), 0, 2, 1);
+            solve.Enabled = false;
+            MessageBox.Show("Игра закончена");
+           
+        }
     }
 }
