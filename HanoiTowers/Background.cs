@@ -15,7 +15,9 @@ namespace HanoiTowers
         public static ComboBox sumOfDisk;
         public static Button apply;
         public static Button solve;
-
+        public static Button restart;
+        public static bool restartClicked = false;
+        public static bool solveClicked = false;
         public Background(ref ControlCollection control)
         {
             this.control = control;
@@ -68,8 +70,15 @@ namespace HanoiTowers
             solve.Size = new Size(120, 50);
             solve.Text = "Решить";
 
+            restart = new Button();
+            restart.Location = new Point(30, 30);
+            restart.Size = new Size(150, 50);
+            restart.Text = "Рестарт";
+
             this.control.Add(solve);
             this.control.Add(apply);
+            this.control.Add(restart);
+
 
             solve.Click += new EventHandler(Solve);
         }

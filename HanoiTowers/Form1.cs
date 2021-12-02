@@ -53,6 +53,35 @@ namespace HanoiTowers
             background.AddButton();
             Background.apply.Click += new EventHandler(AddDisks);
 
+            Background.restart.Click += new EventHandler(Restart);
+
+        }
+
+        public void Restart(object sender, EventArgs e)
+        {
+            Background.restartClicked = true;
+            for (int i = 0; i < 3; i++)
+            {
+                while (rods[i].disksOnRod.Count != 0)
+                {
+                    rods[i].disksOnRod.Peek().Dispose();
+                    rods[i].disksOnRod.Pop();
+                }
+            }
+
+            int size = Convert.ToInt32(Background.sumOfDisk.SelectedItem);
+            for (int i = 0; i < size; i++)
+            {
+                disks.Add(disk = new Disk(ref control, ref rods));
+            }
+
+            for (int i = 0; i < size; i++)
+            {
+                disks[i].AddDisk(i);
+                disks[i].MoveDisk(disks[i].isAnime);
+                disks[i].prev = rods[0];
+            }
+            
         }
 
         public void AddDisks(object sender, EventArgs e)

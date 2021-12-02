@@ -40,6 +40,7 @@ namespace HanoiTowers
             this.control.Add(disk);
 
             rodsFromDisk[0].disksOnRod.Push(disk);
+            Background.restartClicked = false;
         }
 
         Point current;
@@ -64,7 +65,7 @@ namespace HanoiTowers
 
         public void DiskMouseMove(object sender, MouseEventArgs e)
         {
-            if (Background.solve.Enabled != false)
+            if (Background.solve.Enabled != false /*&& Background.restartClicked == false*/)
             {
                 if (prev.disksOnRod.Peek().Size == disk.Size)
                 {
@@ -83,6 +84,7 @@ namespace HanoiTowers
 
         private void DiskMouseUp(object sender, MouseEventArgs e)
         {
+            //MessageBox.Show(rodsFromDisk[2].disksOnRod.Count().ToString());
             int delta = 70;
             Panel disk = sender as Panel;
             if (Background.solve.Enabled != false)
@@ -124,21 +126,27 @@ namespace HanoiTowers
 
         public void MoveDisk(bool isAnime)
         {
-            if (isAnime)
+            if (!(rodsFromDisk[1].disksOnRod.Count() == Background.GetSumOfDisk() || rodsFromDisk[2].disksOnRod.Count() == Background.GetSumOfDisk()))
             {
-                disk.MouseClick += new MouseEventHandler(DiskMouseDown);
-                disk.MouseMove += new MouseEventHandler(DiskMouseMove);
-                disk.MouseUp += new MouseEventHandler(DiskMouseUp);
+                if (isAnime || Background.restartClicked == false)
+                {
+                    disk.MouseClick += new MouseEventHandler(DiskMouseDown);
+                    disk.MouseMove += new MouseEventHandler(DiskMouseMove);
+                    disk.MouseUp += new MouseEventHandler(DiskMouseUp);
+
+                }
+                else
+                    MessageBox.Show("Нельзя_1");
             }
             else
-                MessageBox.Show("Нельзя");
+                MessageBox.Show("Игра закончена");
         }
 
         public static void Solver(int num_disc, int start, int end, int temp)
         {
             if (Background.apply.Enabled == false)
             {
-                if (gameOver(Background.GetSumOfDisk()))
+                if (!gameOver(Background.GetSumOfDisk()))
                 {
                     if (num_disc > 1)
                         Solver(num_disc - 1, start, temp, end);
@@ -161,7 +169,7 @@ namespace HanoiTowers
 
                 }
                 else
-                    MessageBox.Show("Игра закончена");
+                    MessageBox.Show("Верните начальное положение дисков");
             }
             else
                 MessageBox.Show("Задайте кол-во дисков!");
@@ -169,13 +177,18 @@ namespace HanoiTowers
 
         public static bool gameOver(int num_disc)
         {
-            bool game = true;
-            if (rodsFromDisk[1].disksOnRod.Count == num_disc || rodsFromDisk[2].disksOnRod.Count == num_disc || Background.solve.Enabled == false)
+            if (rodsFromDisk[1].disksOnRod.Count() == num_disc || rodsFromDisk[2].disksOnRod.Count() == num_disc)
             {
                 MessageBox.Show("Игра закончена");
-                game = false;
+                return true;
             }
-            return game;
+            else
+            {
+               MessageBox.Show(rodsFromDisk[1].disksOnRod.Count().ToString());
+               return false;
+            }
         }
+
+        
     }
 }
